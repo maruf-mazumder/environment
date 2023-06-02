@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My EJS App</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<style>
+    #myChart {
+      width: 80%; /* Adjust this value as needed */
+      height: 300px; /* Adjust this value as needed */
+    }
+  </style>
+<body>
+    <h1 class="container heading">Welcome to <%= title %></h1>
+    <div class="container flex-row mb">
+        <div class="data">
+            <h2 class="label">Temperature</h2>
+            <h2><span id="temperature"><%= temperature[0].temperature %></span>°C</h2>
+        </div>
+        <div class="data">
+          <h2 class="label">Humidity</h2>
+          <h2><span id="humidity"><%= humidity[0].humidity %></span> %</h2>
+        </div>
+    </div>
+    <div class="container flex-row mb">
+        <div class="charts">
+            <canvas id="myChart"  width="300" height="300"></canvas>
+        </div>
+        <div class="charts">
+            <canvas id="myTemperature"  width="300" height="300"></canvas>
+        </div>
+    </div>
+
+
+    
+    <!-- <article>
+        <h4>Humidity</h4>
+        <p>
+            <ul>
+                <% for (let i = 0; i < holdResult.length; i++) { %>
+                  <% if(holdResult[i].humidity  != null) {%>
+                    <li> <%= holdResult[i].humidity %></li>
+                    <%}%>
+                <% } %>
+              </ul>
+        </p>
+    </article> -->
+
+
+
+    <!-- <article>
+        <h4>Temperature</h4>
+        <p>
+            <ul>
+                <% for (let i = 0; i < holdResult.length; i++) { %>
+                  <% if(holdResult[i].temperature  != null) {%>
+                    <li> <%= holdResult[i].temperature %></li>
+                    <%}%>
+                <% } %>
+              </ul>
+        </p>
+    </article> -->
+
+    <button id="reload_button" class="btn-green" onClick="reload()">
+        <img class="icon" src="https://htmlacademy.ru/assets/icons/reload-6x-white.png"> Reload
+    </button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        // const socket = io();
+
+        var data = <%- JSON.stringify(chartData) %>; // Assume chartData is passed from the server
+        var temperatureData = <%- JSON.stringify(temperatureData) %>; // Assume chartData is passed from the server
+    
+        // Generate the chart
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myTemperature = document.getElementById('myTemperature').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: data,
+          options: {
+            // Chart options
+          }
+        });
+
+
+
+        new Chart(myTemperature, {
+          type: 'bar',
+          data: temperatureData,
+          options: {
+            // Chart options
+          }
+        });
+
+
+        const reloadButton = document.getElementById("reload_button");
+         
+
+        function reload(){
+           window.location.reload();
+      } 
+
+
+    //     setTimeout(function() {
+    //   location.reload(); // Reload the page
+    // }, 5000);
+      </script>
+      
+</body>
+</html>
